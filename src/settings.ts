@@ -1,11 +1,10 @@
 import { App, PluginSettingTab, Setting } from 'obsidian';
-import BearableDataImport from '../main';
-
+import BearableDataImportPlugin from 'main';
 
 export class BearableDataImportSettingsTab extends PluginSettingTab {
-    plugin: BearableDataImport;
+    plugin: BearableDataImportPlugin;
 
-    constructor(app: App, plugin: BearableDataImport) {
+    constructor(app: App, plugin: BearableDataImportPlugin) {
         super(app, plugin);
         this.plugin = plugin;
     }

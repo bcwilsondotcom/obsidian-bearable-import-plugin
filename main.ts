@@ -1,7 +1,14 @@
 import { Plugin, PluginSettingTab, Setting, App, TFile } from 'obsidian';
 import { BearableDataImportSettingsTab } from 'src/settings';
-import { findDailyNote, importData, getCurrentDate } from 'src/utils';
-import { importCustomData } from 'src/dataTypes/customData';
+import { findDailyNote, getCurrentDate } from 'src/utils';
+import { importMoodData } from 'src/dataTypes/moodData'; // Import the function to import mood data
+import { importEnergyData } from 'src/dataTypes/energyData'; // Import the function to import energy data
+import { importSleepData } from 'src/dataTypes/sleepData'; // Import the function to import sleep data
+import { importHealthMeasurementsData } from 'src/dataTypes/healthMeasurementsData'; // Import the function to import health measurements data
+import { importSymptomData } from 'src/dataTypes/symptomData'; // Import the function to import symptom data
+import { importMedsData } from 'src/dataTypes/medsData'; // Import the function to import meds data)
+import { importCustomData } from 'src/dataTypes/customData'; // Import the function to import custom data
+import { importBmData } from 'src/dataTypes/bowelMovementData'; // Import the function to import bowel movement data
 
 export interface BearableDataImportSettings {
     csvFilePath: string; // Path to the CSV file within the vault
@@ -33,7 +40,7 @@ export const DEFAULT_SETTINGS: BearableDataImportSettings = {
     importBm: true, // Default to import Bowel Movement data
 };
 
-export default class BearableDataImport extends Plugin {
+export default class BearableDataImportPlugin extends Plugin {
     settings: BearableDataImportSettings;
     headerName: any;
     importMood: any;
@@ -73,7 +80,7 @@ export default class BearableDataImport extends Plugin {
             
             const csvData = await this.app.vault.read(csvFile);
             const rows = this.parseCSV(csvData);
-            const newData = importData(rows, this.settings);
+            const newData = this.importData(rows, this.settings);
 
             const dailyNote = findDailyNote(this.app, this.settings.dateFormat);
             if (dailyNote) {
@@ -87,6 +94,38 @@ export default class BearableDataImport extends Plugin {
         } else {
             console.log("CSV file not found at path:", this.settings.csvFilePath);
         }
+    }
+
+    importData(rows: any[], settings: BearableDataImportSettings) {
+        //console.log("Settings:", settings); // Debugging line
+        let markdown = ""; // Initialize a variable to store the markdown content
+    
+        if (settings.importMood) {
+            markdown += importMoodData(rows);  // Assume this function is defined to handle Mood data.
+        }
+        if (settings.importEnergy) {
+            markdown += importEnergyData(rows);  // Assume this function is defined to handle Energy data.
+        }
+        if (settings.importSleep) {
+            markdown += importSleepData(rows);  // Assume this function is defined to handle SLeep data.
+        }
+        if (settings.importHealthMeasurements) {
+            markdown += importHealthMeasurementsData(rows);  // Assume this function is defined to handle Health data.
+        }
+        if (settings.importSymptoms) {
+            markdown += importSymptomData(rows);  // Assume this function is defined to handle Symptom data.
+        }
+        if (settings.importMeds) {
+            markdown += importMedsData(rows);  // Assume this function is defined to handle Medication & Supplements data.
+        }
+        if (settings.importCustomRatings) {
+            markdown += importCustomData(rows, settings); // Assume this function is defined to handle Custom Ratings data.
+        }
+        if (settings.importBm) {
+            markdown += importBmData(rows); // Assume this function is defined to handle Custom Ratings data.
+        }
+    
+        return markdown;
     }
 
     parseCSV(data: string): any[] {

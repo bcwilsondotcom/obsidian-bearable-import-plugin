@@ -1,3 +1,7 @@
+import AgileTaskNotesPlugin, { BearableDataImportSettings } from 'main';
+import { BearableDataImportSettingsTab } from '../settings';
+
+
 interface Row {
     dateFormatted: string;
     timeOfDay: string;
@@ -7,7 +11,8 @@ interface Row {
     notes: string;
 }
 
-export function importCustomData(rows: any[], settings: string) {
+
+export function importCustomData(rows: any[], settings: BearableDataImportSettings): string {
     let markdown = "";
     markdown += "### Custom Ratings\n";
 
