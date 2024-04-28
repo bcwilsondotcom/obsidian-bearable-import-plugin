@@ -1,0 +1,11 @@
+{
+	"id": "bearable-import-plugin",
+	"name": "Bearable Data Import",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Import data from a Bearable CSV Export and add it to your daily note.",
+	"author": "Obsidian",
+	"authorUrl": "https://www.bcwilson.com",
+	"fundingUrl": "https://buymeacoffee.com/bcwilsondotcom",
+	"isDesktopOnly": false
+}
